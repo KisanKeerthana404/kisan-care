@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rice Farmer Friend - KisanCare</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: sans-serif; background: #0a1a0a; color: #fff; min-height: 100vh; }
+.header { background: linear-gradient(135deg, #1a5c1a, #2d8a2d); padding: 20px; text-align: center; border-bottom: 3px solid #4CAF50; }
+.header h1 { font-size: 28px; color: #fff; margin-bottom: 5px; }
+.header p { font-size: 14px; color: #c8f0c8; }
+.screen { display: none; padding: 20px; }
+.screen.active { display: block; }
+.question { font-size: 22px; color: #4CAF50; text-align: center; margin: 20px 0; font-weight: bold; }
+.sub-text { text-align: center; color: #aaa; font-size: 14px; margin-bottom: 25px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+.symptom-btn { background: #1a2e1a; border: 2px solid #2d5a2d; border-radius: 16px; padding: 20px 10px; text-align: center; cursor: pointer; }
+.symptom-btn:active { background: #2d5a2d; }
+.symptom-btn .icon { font-size: 48px; margin-bottom: 10px; }
+.symptom-btn .name { font-size: 16px; color: #fff; font-weight: bold; margin-bottom: 5px; }
+.symptom-btn .desc { font-size: 12px; color: #88aa88; }
+.result-card { background: #1a2e1a; border: 2px solid #4CAF50; border-radius: 20px; padding: 25px; margin: 15px 0; }
+.result-card h2 { color: #4CAF50; font-size: 22px; margin-bottom: 15px; text-align: center; }
+.result-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 15px; padding: 12px; background: #0f1f0f; border-radius: 10px; }
+.result-item .label { font-size: 24px; }
+.result-item div { flex: 1; }
+.result-item .title { font-size: 13px; color: #88aa88; margin-bottom: 4px; }
+.result-item .value { font-size: 16px; color: #fff; font-weight: bold; }
+.voice-btn { width: 100%; background: #1976D2; color: #fff; border: none; border-radius: 16px; padding: 18px; font-size: 20px; cursor: pointer; margin: 15px 0; }
+.back-btn { width: 100%; background: #1a2e1a; color: #4CAF50; border: 2px solid #4CAF50; border-radius: 16px; padding: 15px; font-size: 18px; cursor: pointer; margin-top: 10px; }
+.badge { display: inline-block; background: #4CAF50; color: #000; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: bold; margin-bottom: 15px; }
+</style>
+</head>
+<body>
+<div class="header">
+<h1>🌾 Rice Farmer Friend</h1>
+<p>Right advice for your crop • KisanCare</p>
+</div>
+<div class="screen active" id="screen1">
+<div class="question">🔍 What symptom do you see in your crop?</div>
+<div class="sub-text">Tap on picture → Listen to advice</div>
+<div class="grid">
+<div class="symptom-btn" onclick="showResult('yellow')">
+<div class="icon">🟡</div>
+<div class="name">Yellow Leaves</div>
+<div class="desc">Nitrogen deficiency</div>
+</div>
+<div class="symptom-btn" onclick="showResult('brown')">
+<div class="icon">🟫</div>
+<div class="name">Brown Spots on Leaves</div>
+<div class="desc">Rust / disease</div>
+</div>
+<div class="symptom-btn" onclick="showResult('curl')">
+<div class="icon">🍃</div>
+<div class="name">Curled Leaves</div>
+<div class="desc">Water stress / pests</div>
+</div>
+<div class="symptom-btn" onclick="showResult('white')">
+<div class="icon">⬜</div>
+<div class="name">White Spots</div>
+<div class="desc">Neck blast disease</div>
+</div>
+<div class="symptom-btn" onclick="showResult('stem')">
+<div class="icon">🪨</div>
+<div class="name">Stem Turning Black</div>
+<div class="desc">Stem borer pest</div>
+</div>
+<div class="symptom-btn" onclick="showResult('grain')">
+<div class="icon">🌾</div>
+<div class="name">Grains Not Filling</div>
+<div class="desc">Potash / phosphorus deficiency</div>
+</div>
+<div class="symptom-btn" onclick="showResult('water')">
+<div class="icon">💧</div>
+<div class="name">Waterlogging</div>
+<div class="desc">Root rot</div>
+</div>
+<div class="symptom-btn" onclick="showResult('healthy')">
+<div class="icon">✅</div>
+<div class="name">Crop Looks Healthy</div>
+<div class="desc">Maintenance tips</div>
+</div>
+</div>
+</div>
+<div class="screen" id="screen2">
+<div id="resultContent"></div>
+<button class="back-btn" onclick="goBack()">← Go Back</button>
+</div><script>
+const data = {
+yellow: { symptom: "Yellow Leaves", disease: "Nitrogen Deficiency", fertilizer: "Apply Urea 25 kg per acre", when: "Apply immediately, after rain", organic: "Jeevamrutham or Neem cake", warning: "Do not delay - yield will reduce", icon: "🟡" },
+brown: { symptom: "Brown Spots on Leaves", disease: "Brown Spot Disease", fertilizer: "Potassium Chloride 20 kg + spray Mancozeb", when: "Spray immediately", organic: "Neem oil 3ml per liter water", warning: "Treat before disease spreads", icon: "🟫" },
+curl: { symptom: "Curled Leaves", disease: "Whitefly / Water Stress", fertilizer: "Spray Imidacloprid + maintain regular watering", when: "Spray in the morning", organic: "Neem oil + garlic extract spray", warning: "Pests spread fast - act quickly", icon: "🍃" },
+white: { symptom: "White Spots", disease: "Neck Blast Disease", fertilizer: "Spray Tricyclazole 75% WP", when: "Must spray during flowering stage", organic: "Use Trichoderma viride", warning: "Very dangerous disease - act immediately", icon: "⬜" },
+stem: { symptom: "Stem Turning Black", disease: "Stem Borer Pest", fertilizer: "Spray Chlorpyrifos 20 EC", when: "Spray in the evening", organic: "Apply neem cake + Carbofuran", warning: "If dead heart appears, yield is fully lost", icon: "🪨" },
+grain: { symptom: "Grains Not Filling", disease: "Potash / Zinc Deficiency", fertilizer: "MOP 20 kg + ZnSO4 10 kg per acre", when: "Apply during flowering stage", organic: "Apply compost + bone meal", warning: "Must apply during flowering, later is useless", icon: "🌾" },
+water: { symptom: "Waterlogging", disease: "Root Rot", fertilizer: "Drain water + apply Carbendazim", when: "Drain water immediately", organic: "Apply neem cake + Trichoderma", warning: "Ensure water does not stagnate", icon: "💧" },
+healthy: { symptom: "Crop Looks Healthy", disease: "Maintenance Advice", fertilizer: "Apply NPK 20:20:20 once a month", when: "Check every 15 days", organic: "Give Jeevamrutham weekly", warning: "Keep observing the crop daily", icon: "✅" }
+};
+let currentText = "";
+function showResult(type) {
+const d = data[type];
+currentText = "Your crop shows " + d.symptom + ". Problem: " + d.disease + ". Solution: " + d.fertilizer + ". Timing: " + d.when + ". Organic method: " + d.organic + ". Warning: " + d.warning;
+document.getElementById('resultContent').innerHTML = '<div style="text-align:center; margin: 15px 0;"><span class="badge">' + d.icon + ' ' + d.symptom + '</span></div><div class="result-card"><h2>🔬 Diagnosis</h2><div class="result-item"><span class="label">🦠</span><div><div class="title">Problem</div><div class="value">' + d.disease + '</div></div></div><div class="result-item"><span class="label">💊</span><div><div class="title">Fertilizer / Medicine</div><div class="value">' + d.fertilizer + '</div></div></div><div class="result-item"><span class="label">⏰</span><div><div class="title">When to Apply</div><div class="value">' + d.when + '</div></div></div><div class="result-item"><span class="label">🌿</span><div><div class="title">Organic Method</div><div class="value">' + d.organic + '</div></div></div><div class="result-item"><span class="label">⚠️</span><div><div class="title">Warning</div><div class="value">' + d.warning + '</div></div></div></div><button class="voice-btn" id="voiceBtn" onclick="speak()">🔊 Listen</button>';
+document.getElementById('screen1').classList.remove('active');
+document.getElementById('screen2').classList.add('active');
+window.scrollTo(0, 0);
+}
+function speak() {
+if ('speechSynthesis' in window) {
+window.speechSynthesis.cancel();
+const utter = new SpeechSynthesisUtterance(currentText);
+utter.lang = 'en-IN';
+utter.rate = 0.9;
+const btn = document.getElementById('voiceBtn');
+btn.textContent = '🔊 Speaking...';
+utter.onend = () => { btn.textContent = '🔊 Listen'; };
+window.speechSynthesis.speak(utter);
+} else { alert('Voice not supported on this browser'); }
+}
+function goBack() {
+window.speechSynthesis.cancel();
+document.getElementById('screen2').classList.remove('active');
+document.getElementById('screen1').classList.add('active');
+window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>

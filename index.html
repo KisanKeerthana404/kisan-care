@@ -48,7 +48,7 @@ body { font-family: sans-serif; background: #0a1a0a; color: #fff; min-height: 10
 </div>
 <div class="symptom-btn" onclick="showResult('brown')">
 <div class="icon">🟫</div>
-<div class="name">Brown Spots on Leaves</div>
+<div class="name">Brown Spots</div>
 <div class="desc">Rust / disease</div>
 </div>
 <div class="symptom-btn" onclick="showResult('curl')">
@@ -63,13 +63,13 @@ body { font-family: sans-serif; background: #0a1a0a; color: #fff; min-height: 10
 </div>
 <div class="symptom-btn" onclick="showResult('stem')">
 <div class="icon">🪨</div>
-<div class="name">Stem Turning Black</div>
+<div class="name">Stem Black</div>
 <div class="desc">Stem borer pest</div>
 </div>
 <div class="symptom-btn" onclick="showResult('grain')">
 <div class="icon">🌾</div>
 <div class="name">Grains Not Filling</div>
-<div class="desc">Potash / phosphorus deficiency</div>
+<div class="desc">Potash deficiency</div>
 </div>
 <div class="symptom-btn" onclick="showResult('water')">
 <div class="icon">💧</div>
@@ -78,7 +78,7 @@ body { font-family: sans-serif; background: #0a1a0a; color: #fff; min-height: 10
 </div>
 <div class="symptom-btn" onclick="showResult('healthy')">
 <div class="icon">✅</div>
-<div class="name">Crop Looks Healthy</div>
+<div class="name">Crop Healthy</div>
 <div class="desc">Maintenance tips</div>
 </div>
 </div>
@@ -86,43 +86,44 @@ body { font-family: sans-serif; background: #0a1a0a; color: #fff; min-height: 10
 <div class="screen" id="screen2">
 <div id="resultContent"></div>
 <button class="back-btn" onclick="goBack()">← Go Back</button>
-</div><script>
+</div
+<script>
 const data = {
-yellow: { symptom: "Yellow Leaves", disease: "Nitrogen Deficiency", fertilizer: "Apply Urea 25 kg per acre", when: "Apply immediately, after rain", organic: "Jeevamrutham or Neem cake", warning: "Do not delay - yield will reduce", icon: "🟡" },
-brown: { symptom: "Brown Spots on Leaves", disease: "Brown Spot Disease", fertilizer: "Potassium Chloride 20 kg + spray Mancozeb", when: "Spray immediately", organic: "Neem oil 3ml per liter water", warning: "Treat before disease spreads", icon: "🟫" },
-curl: { symptom: "Curled Leaves", disease: "Whitefly / Water Stress", fertilizer: "Spray Imidacloprid + maintain regular watering", when: "Spray in the morning", organic: "Neem oil + garlic extract spray", warning: "Pests spread fast - act quickly", icon: "🍃" },
-white: { symptom: "White Spots", disease: "Neck Blast Disease", fertilizer: "Spray Tricyclazole 75% WP", when: "Must spray during flowering stage", organic: "Use Trichoderma viride", warning: "Very dangerous disease - act immediately", icon: "⬜" },
-stem: { symptom: "Stem Turning Black", disease: "Stem Borer Pest", fertilizer: "Spray Chlorpyrifos 20 EC", when: "Spray in the evening", organic: "Apply neem cake + Carbofuran", warning: "If dead heart appears, yield is fully lost", icon: "🪨" },
-grain: { symptom: "Grains Not Filling", disease: "Potash / Zinc Deficiency", fertilizer: "MOP 20 kg + ZnSO4 10 kg per acre", when: "Apply during flowering stage", organic: "Apply compost + bone meal", warning: "Must apply during flowering, later is useless", icon: "🌾" },
-water: { symptom: "Waterlogging", disease: "Root Rot", fertilizer: "Drain water + apply Carbendazim", when: "Drain water immediately", organic: "Apply neem cake + Trichoderma", warning: "Ensure water does not stagnate", icon: "💧" },
-healthy: { symptom: "Crop Looks Healthy", disease: "Maintenance Advice", fertilizer: "Apply NPK 20:20:20 once a month", when: "Check every 15 days", organic: "Give Jeevamrutham weekly", warning: "Keep observing the crop daily", icon: "✅" }
+yellow: { symptom: "Yellow Leaves", disease: "Nitrogen Deficiency", fertilizer: "Apply Urea 25 kg per acre", when: "Apply immediately after rain", organic: "Jeevamrutham or Neem cake", warning: "Do not delay, yield will reduce", icon: "🟡", telugu: "Mee pantalo aakulu pasupu rangulo kanipistunnaayi. Samasya natrajani lopam. Parishtaaram, yuuriya 25 kilolu ekaraaku veyandi. Ventane veyandi, varsham taravaata. Seendriya paddhatilo jeevamrutham leda vepa pindi vaadandi. Jaagrata, aalaasyam cheyakandi, digubadi taggutuundi." },
+brown: { symptom: "Brown Spots", disease: "Brown Spot Disease", fertilizer: "Potassium Chloride 20 kg + Mancozeb spray", when: "Spray immediately", organic: "Neem oil 3ml per liter", warning: "Treat before disease spreads", icon: "🟫", telugu: "Mee pantalo aakula mida godhuma rangu macchalu kanipistunnaayi. Samasya brown spot vyaadhi. Parishtaaram, potassium chloride 20 kilolu vesi mancozeb pichikari cheyandi. Ventane pichikari cheyandi. Seendriya paddhatilo vepa nuune leetar neellaku 3 millileetarlu vaadandi. Jaagrata, vyaadhi vyaapinche mundu chikitsa cheyandi." },
+curl: { symptom: "Curled Leaves", disease: "Whitefly or Water Stress", fertilizer: "Spray Imidacloprid and water regularly", when: "Spray in the morning", organic: "Neem oil and garlic spray", warning: "Pests spread fast act quickly", icon: "🍃", telugu: "Mee pantalo aakulu vankaragaa kanipistunnaayi. Samasya telladoma leda neeti ottidi. Parishtaaram, imidacloprid pichikari chesi kramam tappakunda neellu pettandi. Udayam pichikari cheyandi. Seendriya paddhatilo vepa nuune mariyu vellulli rasam pichikari cheyandi. Jaagrata, purugulu tvaraga vyaapistaayi." },
+white: { symptom: "White Spots", disease: "Neck Blast Disease", fertilizer: "Spray Tricyclazole 75 percent WP", when: "Spray during flowering stage", organic: "Use Trichoderma viride", warning: "Very dangerous act immediately", icon: "⬜", telugu: "Mee pantalo tellani macchalu kanipistunnaayi. Samasya neck blast vyaadhi. Parishtaaram, tricyclazole 75 shaatam pichikari cheyandi. Poota dashalo tappakunda pichikari cheyandi. Seendriya paddhatilo trichoderma viride vaadandi. Jaagrata, chaala pramaadakaramayna vyaadhi, ventane charya teesukundi." },
+stem: { symptom: "Stem Black", disease: "Stem Borer Pest", fertilizer: "Spray Chlorpyrifos 20 EC", when: "Spray in the evening", organic: "Neem cake and Carbofuran", warning: "Dead heart means yield fully lost", icon: "🪨", telugu: "Mee pantalo kaandam nallagaa maarutuundi. Samasya tholakaapu purugu. Parishtaaram, chlorpyrifos 20 EC pichikari cheyandi. Saayantram pichikari cheyandi. Seendriya paddhatilo vepa pindi mariyu carbofuran veyandi. Jaagrata, dead heart vasthe digubadi puurtigaa pootundi." },
+grain: { symptom: "Grains Not Filling", disease: "Potash or Zinc Deficiency", fertilizer: "MOP 20 kg plus ZnSO4 10 kg per acre", when: "Apply during flowering stage", organic: "Compost and bone meal", warning: "Must apply during flowering only", icon: "🌾", telugu: "Mee pantalo ginjalu nindadam ledu. Samasya potash leda zinc lopam. Parishtaaram, MOP 20 kilolu mariyu zinc sulphate 10 kilolu ekaraaku veyandi. Poota dashalo veyandi. Seendriya paddhatilo compost mariyu emukala pindi veyandi. Jaagrata, poota dashalo vaeyaali, taravaata veisthe upayogam ledu." },
+water: { symptom: "Waterlogging", disease: "Root Rot", fertilizer: "Drain water and apply Carbendazim", when: "Drain water immediately", organic: "Neem cake and Trichoderma", warning: "Do not let water stagnate", icon: "💧", telugu: "Mee pantalo neellu nilichipotunnaayi. Samasya veeru kullaDam. Parishtaaram, neellu teesivesi carbendazim veyandi. Ventane neellu teesiveyandi. Seendriya paddhatilo vepa pindi mariyu trichoderma veyandi. Jaagrata, neellu nilavakundaa choosukoundi." },
+healthy: { symptom: "Crop Healthy", disease: "Maintenance Advice", fertilizer: "Apply NPK 20 20 20 monthly", when: "Check every 15 days", organic: "Jeevamrutham weekly", warning: "Observe crop daily", icon: "✅", telugu: "Mee panta baagundi. Nirvaahana salahaa. NPK 20 20 20 nelakokasaari veyandi. Prati padihenu rojulaku pariSheelindi. Seendriya paddhatilo jeevamrutham vaaraanikokaasaari ivvandi. Jaagrata, rojuu pantanu choostuu undandi." }
 };
-let currentText = "";
+let currentTeluguText = "";
 function showResult(type) {
 const d = data[type];
-currentText = "Your crop shows " + d.symptom + ". Problem: " + d.disease + ". Solution: " + d.fertilizer + ". Timing: " + d.when + ". Organic method: " + d.organic + ". Warning: " + d.warning;
-document.getElementById('resultContent').innerHTML = '<div style="text-align:center; margin: 15px 0;"><span class="badge">' + d.icon + ' ' + d.symptom + '</span></div><div class="result-card"><h2>🔬 Diagnosis</h2><div class="result-item"><span class="label">🦠</span><div><div class="title">Problem</div><div class="value">' + d.disease + '</div></div></div><div class="result-item"><span class="label">💊</span><div><div class="title">Fertilizer / Medicine</div><div class="value">' + d.fertilizer + '</div></div></div><div class="result-item"><span class="label">⏰</span><div><div class="title">When to Apply</div><div class="value">' + d.when + '</div></div></div><div class="result-item"><span class="label">🌿</span><div><div class="title">Organic Method</div><div class="value">' + d.organic + '</div></div></div><div class="result-item"><span class="label">⚠️</span><div><div class="title">Warning</div><div class="value">' + d.warning + '</div></div></div></div><button class="voice-btn" id="voiceBtn" onclick="speak()">🔊 Listen</button>';
+currentTeluguText = d.telugu;
+document.getElementById('resultContent').innerHTML = '<div style="text-align:center;margin:15px 0;"><span class="badge">' + d.icon + ' ' + d.symptom + '</span></div><div class="result-card"><h2>Diagnosis</h2><div class="result-item"><span class="label">🦠</span><div><div class="title">Problem</div><div class="value">' + d.disease + '</div></div></div><div class="result-item"><span class="label">💊</span><div><div class="title">Fertilizer</div><div class="value">' + d.fertilizer + '</div></div></div><div class="result-item"><span class="label">⏰</span><div><div class="title">When to Apply</div><div class="value">' + d.when + '</div></div></div><div class="result-item"><span class="label">🌿</span><div><div class="title">Organic Method</div><div class="value">' + d.organic + '</div></div></div><div class="result-item"><span class="label">⚠️</span><div><div class="title">Warning</div><div class="value">' + d.warning + '</div></div></div></div><button class="voice-btn" id="voiceBtn" onclick="speak()">🔊 Listen in Telugu</button>';
 document.getElementById('screen1').classList.remove('active');
 document.getElementById('screen2').classList.add('active');
-window.scrollTo(0, 0);
+window.scrollTo(0,0);
 }
 function speak() {
-if ('speechSynthesis' in window) {
+if('speechSynthesis' in window) {
 window.speechSynthesis.cancel();
-const utter = new SpeechSynthesisUtterance(currentText);
-utter.lang = 'en-IN';
-utter.rate = 0.9;
+const utter = new SpeechSynthesisUtterance(currentTeluguText);
+utter.lang = 'te-IN';
+utter.rate = 0.85;
 const btn = document.getElementById('voiceBtn');
 btn.textContent = '🔊 Speaking...';
-utter.onend = () => { btn.textContent = '🔊 Listen'; };
+utter.onend = () => { btn.textContent = '🔊 Listen in Telugu'; };
 window.speechSynthesis.speak(utter);
-} else { alert('Voice not supported on this browser'); }
+} else { alert('Voice not supported'); }
 }
 function goBack() {
 window.speechSynthesis.cancel();
 document.getElementById('screen2').classList.remove('active');
 document.getElementById('screen1').classList.add('active');
-window.scrollTo(0, 0);
+window.scrollTo(0,0);
 }
 </script>
 </body>

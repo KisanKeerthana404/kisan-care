@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rice Farmer Friend - KisanCare</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: sans-serif; background: #0a1a0a; color: #fff; min-height: 100vh; }
+.header { background: linear-gradient(135deg, #1a5c1a, #2d8a2d); padding: 20px; text-align: center; }
+.header h1 { font-size: 28px; }
+.header p { font-size: 14px; color: #c8f0c8; }
+.screen { display: none; padding: 20px; }
+.screen.active { display: block; }
+.question { font-size: 22px; color: #4CAF50; text-align: center; margin: 20px 0; font-weight: bold; }
+.sub-text { text-align: center; color: #aaa; font-size: 14px; margin-bottom: 25px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.symptom-btn { background: #1a2e1a; border: 2px solid #2d5a2d; border-radius: 16px; padding: 20px 10px; text-align: center; cursor: pointer; }
+.symptom-btn .icon { font-size: 48px; margin-bottom: 10px; }
+.symptom-btn .name { font-size: 16px; font-weight: bold; margin-bottom: 5px; }
+.symptom-btn .desc { font-size: 12px; color: #88aa88; }
+.result-card { background: #1a2e1a; border: 2px solid #4CAF50; border-radius: 20px; padding: 25px; margin: 15px 0; }
+.result-card h2 { color: #4CAF50; text-align: center; margin-bottom: 15px; }
+.result-item { display: flex; gap: 12px; margin-bottom: 15px; padding: 12px; background: #0f1f0f; border-radius: 10px; }
+.result-item .title { font-size: 13px; color: #88aa88; }
+.result-item .value { font-size: 16px; font-weight: bold; }
+.voice-btn { width: 100%; background: #1976D2; color: #fff; border: none; border-radius: 16px; padding: 18px; font-size: 20px; margin: 15px 0; }
+.back-btn { width: 100%; background: #1a2e1a; color: #4CAF50; border: 2px solid #4CAF50; border-radius: 16px; padding: 15px; font-size: 18px; }
+.badge { display: inline-block; background: #4CAF50; color: #000; padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: bold; }
+</style>
+</head>
+<body>
+<div class="header">
+<h1>🌾 Rice Farmer Friend</h1>
+<p>Right advice for your crop - KisanCare</p>
+</div>
+<div class="screen active" id="screen1">
+<div class="question">What symptom do you see?</div>
+<div class="sub-text">Tap picture, then Listen</div>
+<div class="grid">
+<div class="symptom-btn" onclick="showResult('yellow')"><div class="icon">🟡</div><div class="name">Yellow Leaves</div><div class="desc">Nitrogen deficiency</div></div>
+<div class="symptom-btn" onclick="showResult('brown')"><div class="icon">🟫</div><div class="name">Brown Spots</div><div class="desc">Rust disease</div></div>
+<div class="symptom-btn" onclick="showResult('curl')"><div class="icon">🍃</div><div class="name">Curled Leaves</div><div class="desc">Water stress</div></div>
+<div class="symptom-btn" onclick="showResult('white')"><div class="icon">⬜</div><div class="name">White Spots</div><div class="desc">Neck blast</div></div>
+<div class="symptom-btn" onclick="showResult('stem')"><div class="icon">🪨</div><div class="name">Stem Black</div><div class="desc">Stem borer</div></div>
+<div class="symptom-btn" onclick="showResult('grain')"><div class="icon">🌾</div><div class="name">Grains Not Filling</div><div class="desc">Potash deficiency</div></div>
+<div class="symptom-btn" onclick="showResult('water')"><div class="icon">💧</div><div class="name">Waterlogging</div><div class="desc">Root rot</div></div>
+<div class="symptom-btn" onclick="showResult('healthy')"><div class="icon">✅</div><div class="name">Crop Healthy</div><div class="desc">Maintenance</div></div>
+</div>
+</div>
+<div class="screen" id="screen2">
+<div id="resultContent"></div>
+<button class="back-btn" onclick="goBack()">Go Back</button>
+</div
+  <script>
+const data = {
+yellow: { symptom: "Yellow Leaves", disease: "Nitrogen Deficiency", fertilizer: "Apply Urea 25 kg per acre", when: "Apply immediately after rain", organic: "Jeevamrutham or Neem cake", warning: "Do not delay, yield will reduce", icon: "🟡", telugu: "Mee pantalo aakulu pasupu rangulo kanipistunnaayi. Samasya natrajani lopam. Parishtaaram, yuuriya 25 kilolu ekaraaku veyandi. Ventane veyandi, varsham taravaata. Seendriya paddhatilo jeevamrutham leda vepa pindi vaadandi." },
+brown: { symptom: "Brown Spots", disease: "Brown Spot Disease", fertilizer: "Potassium Chloride 20 kg plus Mancozeb spray", when: "Spray immediately", organic: "Neem oil 3ml per liter", warning: "Treat before disease spreads", icon: "🟫", telugu: "Mee pantalo aakula mida godhuma rangu macchalu kanipistunnaayi. Samasya brown spot vyaadhi. Parishtaaram, potassium chloride 20 kilolu vesi mancozeb pichikari cheyandi." },
+curl: { symptom: "Curled Leaves", disease: "Water Stress or Pests", fertilizer: "Spray Imidacloprid and water regularly", when: "Spray in the morning", organic: "Neem oil and garlic spray", warning: "Pests spread fast, act quickly", icon: "🍃", telugu: "Mee pantalo aakulu vankaragaa kanipistunnaayi. Samasya telladoma leda neeti ottidi. Parishtaaram, imidacloprid pichikari chesi kramam tappakunda neellu pettandi." },
+white: { symptom: "White Spots", disease: "Neck Blast Disease", fertilizer: "Spray Tricyclazole 75 percent WP", when: "Spray during flowering stage", organic: "Use Trichoderma viride", warning: "Very dangerous, act immediately", icon: "⬜", telugu: "Mee pantalo tellani macchalu kanipistunnaayi. Samasya neck blast vyaadhi. Parishtaaram, tricyclazole 75 shaatam pichikari cheyandi. Poota dashalo tappakunda pichikari cheyandi." },
+stem: { symptom: "Stem Black", disease: "Stem Borer Pest", fertilizer: "Spray Chlorpyrifos 20 EC", when: "Spray in the evening", organic: "Neem cake and Carbofuran", warning: "Dead heart means yield fully lost", icon: "🪨", telugu: "Mee pantalo kaandam nallagaa maarutuundi. Samasya tholakaapu purugu. Parishtaaram, chlorpyrifos 20 EC pichikari cheyandi." },
+grain: { symptom: "Grains Not Filling", disease: "Potash or Zinc Deficiency", fertilizer: "MOP 20 kg plus ZnSO4 10 kg per acre", when: "Apply during flowering stage", organic: "Compost and bone meal", warning: "Must apply during flowering only", icon: "🌾", telugu: "Mee pantalo ginjalu nindadam ledu. Samasya potash leda zinc lopam. Parishtaaram, MOP 20 kilolu mariyu zinc sulphate 10 kilolu ekaraaku veyandi." },
+water: { symptom: "Waterlogging", disease: "Root Rot", fertilizer: "Drain water and apply Carbendazim", when: "Drain water immediately", organic: "Neem cake and Trichoderma", warning: "Do not let water stagnate", icon: "💧", telugu: "Mee pantalo neellu nilichipotunnaayi. Samasya veeru kullaDam. Parishtaaram, neellu teesivesi carbendazim veyandi." },
+healthy: { symptom: "Crop Healthy", disease: "Maintenance Advice", fertilizer: "Apply NPK 20 20 20 monthly", when: "Check every 15 days", organic: "Jeevamrutham weekly", warning: "Observe crop daily", icon: "✅", telugu: "Mee panta baagundi. Nirvaahana salahaa. NPK 20 20 20 nelakokasaari veyandi. Prati padihenu rojulaku pariSheelindi." }
+};
+function showResult(type) {
+var d = data[type];
+window.currentTeluguText = d.telugu;
+var html = "";
+html += "<div style='text-align:center;margin:15px 0'><span class='badge'>" + d.icon + " " + d.symptom + "</span></div>";
+html += "<div class='result-card'><h2>Diagnosis</h2>";
+html += "<div class='result-item'><div><div class='title'>Problem</div><div class='value'>" + d.disease + "</div></div></div>";
+html += "<div class='result-item'><div><div class='title'>Fertilizer</div><div class='value'>" + d.fertilizer + "</div></div></div>";
+html += "<div class='result-item'><div><div class='title'>When</div><div class='value'>" + d.when + "</div></div></div>";
+html += "<div class='result-item'><div><div class='title'>Organic</div><div class='value'>" + d.organic + "</div></div></div>";
+html += "<div class='result-item'><div><div class='title'>Warning</div><div class='value'>" + d.warning + "</div></div></div></div>";
+html += "<button class='voice-btn' id='voiceBtn' onclick='speak()'>Listen in Telugu</button>";
+document.getElementById('resultContent').innerHTML = html;
+document.getElementById('screen1').classList.remove('active');
+document.getElementById('screen2').classList.add('active');
+window.scrollTo(0,0);
+}
+function speak() {
+if ('speechSynthesis' in window) {
+window.speechSynthesis.cancel();
+var utter = new SpeechSynthesisUtterance(window.currentTeluguText);
+utter.lang = 'te-IN';
+utter.rate = 0.85;
+var btn = document.getElementById('voiceBtn');
+btn.textContent = 'Speaking...';
+utter.onend = function() { btn.textContent = 'Listen in Telugu'; };
+window.speechSynthesis.speak(utter);
+}
+}
+function goBack() {
+window.speechSynthesis.cancel();
+document.getElementById('screen2').classList.remove('active');
+document.getElementById('screen1').classList.add('active');
+window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
